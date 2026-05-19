@@ -121,7 +121,9 @@ export function DashboardOverview() {
                       {formatDate(renewal.renewalDate)}
                     </p>
                   </div>
-                  <p className="font-semibold">{formatCurrency(renewal.amount, renewal.currency)}</p>
+                  <p className="font-semibold">
+                    {formatCurrency(renewal.amount, renewal.currency)}
+                  </p>
                 </div>
               ))
             )}

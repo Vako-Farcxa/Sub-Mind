@@ -7,9 +7,11 @@ import { formatBillingCycle, formatCurrency, formatDate } from "@/lib/formatters
 
 export function SubscriptionList() {
   const [status, setStatus] = useState("");
-  const { data: subscriptions = [], isError, isLoading } = useSubscriptions(
-    status ? { status } : {},
-  );
+  const {
+    data: subscriptions = [],
+    isError,
+    isLoading,
+  } = useSubscriptions(status ? { status } : {});
   const deleteMutation = useDeleteSubscription();
 
   const handleDelete = async (subscription) => {

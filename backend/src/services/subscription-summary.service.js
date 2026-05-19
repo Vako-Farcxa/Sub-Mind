@@ -63,7 +63,9 @@ const buildSubscriptionSummary = (subscriptions, now = new Date()) => {
   const monthlySpend = roundCurrency(
     subscriptions.reduce((total, subscription) => total + getMonthlyEquivalent(subscription), 0),
   );
-  const allUpcomingRenewals = subscriptions.filter((subscription) => isUpcomingRenewal(subscription, now));
+  const allUpcomingRenewals = subscriptions.filter((subscription) =>
+    isUpcomingRenewal(subscription, now),
+  );
   const upcomingRenewals = allUpcomingRenewals
     .sort((a, b) => new Date(a.renewalDate) - new Date(b.renewalDate))
     .slice(0, 5);
