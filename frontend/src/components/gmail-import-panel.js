@@ -136,9 +136,7 @@ export function GmailImportPanel() {
             ) : null}
 
             {isError ? (
-              <p className="text-sm text-red-600 dark:text-red-300">
-                Unable to load scan history.
-              </p>
+              <p className="text-sm text-red-600 dark:text-red-300">Unable to load scan history.</p>
             ) : null}
 
             {!isLoading && !isError && scans.length === 0 ? (

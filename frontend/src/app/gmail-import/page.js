@@ -9,7 +9,10 @@ export default function GmailImportPage() {
         <div className="mx-auto max-w-7xl">
           <header className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
             <div>
-              <Link href="/dashboard" className="text-sm font-medium text-cyan-600 dark:text-cyan-300">
+              <Link
+                href="/dashboard"
+                className="text-sm font-medium text-cyan-600 dark:text-cyan-300"
+              >
                 Back to dashboard
               </Link>
               <h1 className="mt-3 text-4xl font-semibold tracking-tight">Gmail import</h1>
