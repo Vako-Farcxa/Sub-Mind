@@ -25,5 +25,6 @@ Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_API_URL` to the backend
 cp frontend/.env.example frontend/.env.local
 ```
 
-The first milestone includes the landing page, login shell, dashboard shell, React Query provider,
-and Zustand UI store. API-connected features are added in later milestones.
+The frontend includes the landing page, login page, protected dashboard shell, React Query provider,
+auth hooks, and Zustand UI store. Visit `/login` to start Google OAuth once the backend environment
+is configured.

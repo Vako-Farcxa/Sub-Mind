@@ -22,7 +22,17 @@ const loginSchema = z.object({
   query: z.object({}).optional(),
 });
 
+const googleCallbackSchema = z.object({
+  body: z.object({}).optional(),
+  params: z.object({}).optional(),
+  query: z.object({
+    code: z.string().min(1),
+    state: z.string().min(1),
+  }),
+});
+
 module.exports = {
+  googleCallbackSchema,
   loginSchema,
   registerSchema,
 };

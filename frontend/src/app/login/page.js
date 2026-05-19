@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { googleLoginUrl } from "@/lib/config";
 
 export default function LoginPage() {
   return (
@@ -11,19 +12,19 @@ export default function LoginPage() {
           Sign in to manage subscriptions
         </h1>
         <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
-          Google OAuth will be connected in the auth milestone. This page defines the protected
-          route entry point and design system direction.
+          Continue with Google to create a secure HttpOnly-cookie session. Gmail permissions are
+          requested so the import milestone can scan receipts and renewal notices.
         </p>
 
-        <button
-          type="button"
+        <a
+          href={googleLoginUrl}
           className="mt-8 flex w-full items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white dark:bg-cyan-300 dark:text-slate-950"
         >
           Continue with Google
-        </button>
+        </a>
 
         <p className="mt-6 text-center text-xs text-slate-500 dark:text-slate-400">
-          Secure sessions will use HttpOnly cookies issued by the Express API.
+          For local testing, configure Google OAuth values in `backend/.env` before clicking.
         </p>
       </section>
     </main>

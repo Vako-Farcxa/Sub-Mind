@@ -37,12 +37,30 @@ HTTP request
 - **Zustand** is for local UI state such as sidebar state, filters, and temporary preferences.
 - **Next.js App Router** keeps pages and layouts colocated by route.
 
+## Authentication flow
+
+```txt
+Frontend /login
+  -> GET /api/auth/google
+  -> Google consent screen
+  -> GET /api/auth/google/callback
+  -> user + OAuthAccount upsert
+  -> HttpOnly access/refresh cookies
+  -> redirect to /dashboard
+  -> React Query loads /api/auth/me
+```
+
+The backend stores OAuth provider data separately from the user account. That separation matters
+because a user can later connect additional providers or rotate Google tokens without changing the
+core user identity.
+
 ## Production concerns already represented
 
 - Helmet security headers.
 - Express rate limiting.
 - Zod validation.
-- HttpOnly cookie-oriented auth utilities.
+- HttpOnly JWT cookie auth.
+- OAuth state validation for the Google callback.
 - Centralized error handling.
 - Environment validation.
 - Prisma relational schema with indexes and cascade rules.

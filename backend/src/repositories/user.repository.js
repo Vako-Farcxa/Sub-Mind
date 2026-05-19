@@ -28,6 +28,7 @@ const userRepository = {
       create: { email, name, avatarUrl },
     });
   },
+
 };
 
 module.exports = {

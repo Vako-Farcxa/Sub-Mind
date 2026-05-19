@@ -23,8 +23,12 @@ const signRefreshToken = (payload) =>
 const verifyAccessToken = (token) =>
   jwt.verify(token, getSecret(env.JWT_ACCESS_SECRET, "JWT_ACCESS_SECRET"));
 
+const verifyRefreshToken = (token) =>
+  jwt.verify(token, getSecret(env.JWT_REFRESH_SECRET, "JWT_REFRESH_SECRET"));
+
 module.exports = {
   signAccessToken,
   signRefreshToken,
   verifyAccessToken,
+  verifyRefreshToken,
 };

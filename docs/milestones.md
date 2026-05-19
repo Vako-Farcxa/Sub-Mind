@@ -9,8 +9,9 @@ Current milestone:
 - [x] Backend setup
 - [x] Prisma schema
 - [x] Dashboard shell
-- [ ] Google OAuth authentication
-- [ ] Protected frontend routes
+- [x] Google OAuth authentication foundation
+- [x] Protected frontend routes
+- [ ] Authenticated route middleware hardening
 
 ## Phase 2: Manual subscriptions
 

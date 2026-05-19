@@ -31,3 +31,14 @@ cp backend/.env.example backend/.env
 ```
 
 Never commit real OAuth credentials, JWT secrets, or database URLs.
+
+## Auth endpoints
+
+- `GET /api/auth/google` starts Google OAuth.
+- `GET /api/auth/google/callback` exchanges the Google code and sets auth cookies.
+- `GET /api/auth/me` returns the current user when an access cookie is valid.
+- `POST /api/auth/refresh` rotates access/refresh cookies from a refresh cookie.
+- `POST /api/auth/logout` clears auth cookies.
+
+Google OAuth requires `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`,
+`JWT_ACCESS_SECRET`, and `JWT_REFRESH_SECRET`.
