@@ -1,14 +1,7 @@
 const { getPrisma } = require("../db/prisma");
 
 const oauthAccountRepository = {
-  upsertGoogleAccount({
-    userId,
-    providerAccountId,
-    accessToken,
-    refreshToken,
-    scope,
-    expiresAt,
-  }) {
+  upsertGoogleAccount({ userId, providerAccountId, accessToken, refreshToken, scope, expiresAt }) {
     const prisma = getPrisma();
 
     return prisma.oAuthAccount.upsert({
