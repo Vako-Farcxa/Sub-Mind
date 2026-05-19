@@ -72,6 +72,23 @@ The Gmail detection engine should be introduced under `backend/src/services` and
 creating real subscriptions directly. Users confirm detections before they become active
 subscriptions.
 
+## Gmail scan flow
+
+```txt
+Protected Gmail import page
+  -> React Query mutation
+  -> POST /api/email-scans
+  -> email scan service
+  -> Google OAuth account lookup
+  -> Gmail API metadata search
+  -> EmailScan status/count persistence
+  -> message previews returned to UI
+```
+
+The current Gmail import returns message previews but does not persist raw email content. That keeps
+the privacy boundary tight and leaves the next milestone free to define the minimum normalized email
+facts needed by the detection engine.
+
 ## Manual subscription flow
 
 ```txt

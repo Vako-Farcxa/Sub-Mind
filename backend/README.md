@@ -53,3 +53,14 @@ All subscription endpoints require a valid auth cookie or bearer token.
 - `POST /api/subscriptions` creates a manual subscription.
 - `PATCH /api/subscriptions/:id` updates a subscription.
 - `DELETE /api/subscriptions/:id` deletes a subscription.
+
+## Email scan endpoints
+
+All email scan endpoints require a valid auth cookie or bearer token.
+
+- `GET /api/email-scans` lists recent Gmail scan records.
+- `POST /api/email-scans` starts a Gmail metadata scan.
+- `GET /api/email-scans/:id` returns one scan record.
+
+`POST /api/email-scans` accepts optional `maxResults` and `newerThanDays` values. Gmail message
+previews are returned in the response, while scan status and counts are persisted in `EmailScan`.

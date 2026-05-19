@@ -24,10 +24,12 @@ Current milestone:
 
 ## Phase 3: Gmail integration
 
-- Google OAuth scopes for Gmail.
-- Gmail message query and fetching.
-- Email scan records.
-- User-triggered import page.
+- [x] Google OAuth scopes for Gmail.
+- [x] Gmail message query and fetching.
+- [x] Email scan records.
+- [x] User-triggered import page.
+- [ ] Background worker queue for long scans.
+- [ ] Persist normalized email facts for detection review.
 
 ## Phase 4: Smart detection
 

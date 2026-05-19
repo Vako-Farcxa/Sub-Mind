@@ -38,6 +38,17 @@ This milestone turns the shell into the first usable product slice:
 - Monthly/yearly spend normalization across weekly, monthly, yearly, and trial cycles.
 - Category breakdown and upcoming renewal calculations.
 
+### Milestone 4: Gmail import foundation
+
+This milestone connects the Gmail integration boundary:
+
+- Protected Gmail import page.
+- Email scan history records.
+- Gmail search query builder for subscription-related messages.
+- Gmail message metadata fetching through the connected Google OAuth account.
+- Message previews returned to the UI for review.
+- Focused tests for Gmail query and metadata parsing helpers.
+
 ## Repository structure
 
 ```txt
@@ -135,6 +146,7 @@ Open the browser preview:
 - Protected dashboard: `http://localhost:3000/dashboard`
 - Subscription list: `http://localhost:3000/subscriptions`
 - Add subscription: `http://localhost:3000/subscriptions/new`
+- Gmail import: `http://localhost:3000/gmail-import`
 
 Google OAuth local setup:
 
@@ -162,6 +174,14 @@ Manual subscription browser check:
 5. Open `/dashboard` to see monthly spend, yearly projection, upcoming renewals, and category
    breakdown update from the API.
 
+Gmail import browser check:
+
+1. Sign in with Google using a client that includes the Gmail readonly scope.
+2. Open `/gmail-import`.
+3. Choose how many emails to scan and how far back to search.
+4. Start the scan.
+5. Confirm a scan history row is created and matching Gmail message previews appear.
+
 Run quality checks:
 
 ```bash
@@ -172,8 +192,7 @@ npm run build
 
 ## Remaining major steps
 
-1. Gmail scan job creation and email fetching.
-2. Subscription detection engine and confidence scoring.
-3. User confirmation flow for detected subscriptions.
-4. Reminder scheduling and email notifications.
-5. Telegram bot integration.
+1. Subscription detection engine and confidence scoring.
+2. User confirmation flow for detected subscriptions.
+3. Reminder scheduling and email notifications.
+4. Telegram bot integration.

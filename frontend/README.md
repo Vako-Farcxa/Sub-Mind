@@ -34,6 +34,7 @@ OAuth once the backend environment is configured.
 - `/` landing page
 - `/login` Google OAuth entry point
 - `/dashboard` protected dashboard with summary widgets
+- `/gmail-import` protected Gmail scan page
 - `/subscriptions` protected subscription list
 - `/subscriptions/new` protected create form
 - `/subscriptions/:id/edit` protected edit form
