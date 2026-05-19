@@ -29,14 +29,16 @@ Current milestone:
 - [x] Email scan records.
 - [x] User-triggered import page.
 - [ ] Background worker queue for long scans.
-- [ ] Persist normalized email facts for detection review.
+- [x] Persist normalized detections for review.
 
 ## Phase 4: Smart detection
 
-- Sender and domain parsing.
-- Subject and body keyword matching.
-- Price extraction.
-- Billing cycle inference.
-- Renewal prediction.
-- Confidence scoring.
-- User confirmation flow.
+- [x] Sender and domain parsing.
+- [x] Subject and body keyword matching.
+- [x] Price extraction.
+- [x] Billing cycle inference.
+- [x] Renewal prediction.
+- [x] Confidence scoring.
+- [x] User confirmation flow.
+- [ ] Inline edit-before-confirm for incomplete detections.
+- [ ] Provider pattern admin/config surface.

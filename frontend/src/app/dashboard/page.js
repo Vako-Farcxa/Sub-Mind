@@ -27,6 +27,12 @@ export default function DashboardPage() {
                 Gmail import
               </Link>
               <Link
+                href="/detected-subscriptions"
+                className="rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10"
+              >
+                Review detections
+              </Link>
+              <Link
                 href="/subscriptions"
                 className="rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10"
               >

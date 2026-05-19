@@ -64,3 +64,14 @@ All email scan endpoints require a valid auth cookie or bearer token.
 
 `POST /api/email-scans` accepts optional `maxResults` and `newerThanDays` values. Gmail message
 previews are returned in the response, while scan status and counts are persisted in `EmailScan`.
+
+## Detected subscription endpoints
+
+All detected subscription endpoints require a valid auth cookie or bearer token.
+
+- `GET /api/detected-subscriptions` lists pending detections by default.
+- `POST /api/detected-subscriptions/:id/confirm` creates a real subscription from a detection.
+- `POST /api/detected-subscriptions/:id/dismiss` dismisses a false positive.
+
+Confirmation accepts optional override fields such as `amount`, `billingCycle`, `renewalDate`, and
+`category` for detections that need user correction before becoming subscriptions.

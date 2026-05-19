@@ -65,12 +65,12 @@ core user identity.
 - Environment validation.
 - Prisma relational schema with indexes and cascade rules.
 
-## Planned detection engine boundary
+## Detection engine boundary
 
-The Gmail detection engine should be introduced under `backend/src/services` and
-`backend/src/integrations/gmail` later. It should emit `DetectedSubscription` records rather than
-creating real subscriptions directly. Users confirm detections before they become active
-subscriptions.
+The Gmail detection engine lives under `backend/src/services` and emits `DetectedSubscription`
+records instead of creating real subscriptions directly. This is intentional: email parsing is
+probabilistic, so the system must ask the user to confirm a detection before it affects spending
+analytics or renewal reminders.
 
 ## Gmail scan flow
 
@@ -82,12 +82,28 @@ Protected Gmail import page
   -> Google OAuth account lookup
   -> Gmail API metadata search
   -> EmailScan status/count persistence
-  -> message previews returned to UI
+  -> detection engine
+  -> DetectedSubscription persistence
+  -> message previews + detections returned to UI
 ```
 
-The current Gmail import returns message previews but does not persist raw email content. That keeps
-the privacy boundary tight and leaves the next milestone free to define the minimum normalized email
-facts needed by the detection engine.
+The Gmail import returns message previews but does not persist raw email content. It only persists
+normalized detection facts such as sender, subject, provider, price, billing cycle, predicted
+renewal date, and confidence score.
+
+## Detection confirmation flow
+
+```txt
+Protected detection review page
+  -> GET /api/detected-subscriptions
+  -> user confirms a candidate
+  -> POST /api/detected-subscriptions/:id/confirm
+  -> create Subscription with source=gmail
+  -> mark DetectedSubscription.confirmedAt
+```
+
+Dismissed detections remain auditable through their `dismissedAt` timestamp and are excluded from
+the default pending review queue.
 
 ## Manual subscription flow
 

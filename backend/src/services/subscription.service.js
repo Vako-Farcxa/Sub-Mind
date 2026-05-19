@@ -95,5 +95,6 @@ const subscriptionService = {
 };
 
 module.exports = {
+  serializeSubscription,
   subscriptionService,
 };

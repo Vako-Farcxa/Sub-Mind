@@ -3,11 +3,13 @@ const { createGoogleOAuthClient } = require("../integrations/google/oauth.client
 const { emailScanRepository } = require("../repositories/email-scan.repository");
 const { oauthAccountRepository } = require("../repositories/oauth-account.repository");
 const { AppError } = require("../utils/appError");
+const { detectedSubscriptionService } = require("./detected-subscription.service");
 const {
   buildSubscriptionSearchQuery,
   extractMessagePreview,
   normalizeScanOptions,
 } = require("./gmail-query.service");
+const { detectSubscriptionsFromMessages } = require("./subscription-detection.service");
 
 const serializeScan = (scan) => ({
   ...scan,
@@ -98,14 +100,21 @@ const emailScanService = {
       });
       const messageRefs = listResponse.data.messages || [];
       const messagePreviews = await fetchMessagePreviews(gmail, messageRefs);
+      const detectedSubscriptions = detectSubscriptionsFromMessages(messagePreviews);
+      const savedDetections = await detectedSubscriptionService.persistDetections(
+        userId,
+        queuedScan.id,
+        detectedSubscriptions,
+      );
       const completedScan = await emailScanRepository.markCompleted(queuedScan.id, {
         scannedCount: messagePreviews.length,
-        detectedCount: 0,
+        detectedCount: savedDetections.length,
       });
 
       return {
         scan: serializeScan(completedScan),
         messages: messagePreviews,
+        detections: savedDetections,
       };
     } catch (error) {
       const failedScan = await emailScanRepository.markFailed(
@@ -116,6 +125,7 @@ const emailScanService = {
       return {
         scan: serializeScan(failedScan),
         messages: [],
+        detections: [],
       };
     }
   },

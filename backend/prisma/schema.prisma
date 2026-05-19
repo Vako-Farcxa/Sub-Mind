@@ -117,6 +117,7 @@ model DetectedSubscription {
   @@index([userId])
   @@index([confidenceScore])
   @@index([rawEmailId])
+  @@unique([userId, rawEmailId])
 }
 
 model ReminderSettings {

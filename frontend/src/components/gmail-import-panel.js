@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useEmailScans, useStartEmailScan } from "@/hooks/use-email-scans";
 import { formatDate } from "@/lib/formatters";
@@ -12,6 +13,7 @@ const scanDefaults = {
 export function GmailImportPanel() {
   const [form, setForm] = useState(scanDefaults);
   const [latestMessages, setLatestMessages] = useState([]);
+  const [latestDetections, setLatestDetections] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const { data: scans = [], isError, isLoading } = useEmailScans();
   const startScanMutation = useStartEmailScan();
@@ -27,6 +29,7 @@ export function GmailImportPanel() {
     try {
       const result = await startScanMutation.mutateAsync(form);
       setLatestMessages(result.messages || []);
+      setLatestDetections(result.detections || []);
 
       if (result.scan.status === "FAILED") {
         setErrorMessage(result.scan.errorMessage || "Gmail scan failed.");
@@ -44,8 +47,8 @@ export function GmailImportPanel() {
       <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
         <h2 className="text-xl font-semibold">Start Gmail scan</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
-          This scans Gmail metadata for subscription-related messages. Detection and confirmation
-          are intentionally handled in the next milestone.
+          This scans Gmail metadata for subscription-related messages, scores likely subscriptions,
+          and sends detections to review before anything is added to your dashboard.
         </p>
 
         <form onSubmit={handleStartScan} className="mt-6 space-y-5">
@@ -90,6 +93,48 @@ export function GmailImportPanel() {
       </section>
 
       <section className="space-y-6">
+        <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+            <div>
+              <h2 className="text-xl font-semibold">Latest detections</h2>
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                Confirm detections to turn them into tracked subscriptions.
+              </p>
+            </div>
+            <Link
+              href="/detected-subscriptions"
+              className="rounded-full bg-slate-950 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-slate-800 dark:bg-cyan-300 dark:text-slate-950 dark:hover:bg-cyan-200"
+            >
+              Review detections
+            </Link>
+          </div>
+
+          <div className="mt-6 space-y-3">
+            {latestDetections.length === 0 ? (
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Run a scan to create pending detections.
+              </p>
+            ) : (
+              latestDetections.map((detection) => (
+                <div
+                  key={detection.id}
+                  className="flex flex-col justify-between gap-3 rounded-2xl border border-slate-200 p-4 dark:border-white/10 md:flex-row md:items-center"
+                >
+                  <div>
+                    <p className="font-semibold">{detection.name}</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      {detection.subject || "No subject"}
+                    </p>
+                  </div>
+                  <span className="w-fit rounded-full bg-cyan-100 px-3 py-1 text-xs font-semibold text-cyan-800 dark:bg-cyan-950 dark:text-cyan-200">
+                    {detection.confidenceScore}% confidence
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
         <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
           <h2 className="text-xl font-semibold">Latest message previews</h2>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">

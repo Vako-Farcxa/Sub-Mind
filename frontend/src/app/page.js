@@ -26,6 +26,9 @@ export default function Home() {
           <Link href="/gmail-import" className="hover:text-white">
             Gmail import
           </Link>
+          <Link href="/detected-subscriptions" className="hover:text-white">
+            Detections
+          </Link>
           <Link href="/login" className="hover:text-white">
             Login
           </Link>

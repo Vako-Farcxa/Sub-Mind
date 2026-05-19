@@ -49,6 +49,19 @@ This milestone connects the Gmail integration boundary:
 - Message previews returned to the UI for review.
 - Focused tests for Gmail query and metadata parsing helpers.
 
+### Milestone 5: Smart detection and confirmation
+
+This milestone turns Gmail scans into reviewable subscription candidates:
+
+- Known-provider matching for Netflix, Spotify, YouTube Premium, ChatGPT Plus, Adobe, Canva,
+  Amazon Prime, Notion, GitHub Copilot, Apple, Google One, and Microsoft 365.
+- Sender/domain, subject, snippet, price, billing-cycle, and renewal-date parsing.
+- Confidence scoring.
+- `DetectedSubscription` persistence with duplicate prevention.
+- Protected detection review page.
+- Confirm flow that creates a real subscription.
+- Dismiss flow for false positives.
+
 ## Repository structure
 
 ```txt
@@ -147,6 +160,7 @@ Open the browser preview:
 - Subscription list: `http://localhost:3000/subscriptions`
 - Add subscription: `http://localhost:3000/subscriptions/new`
 - Gmail import: `http://localhost:3000/gmail-import`
+- Detected subscriptions: `http://localhost:3000/detected-subscriptions`
 
 Google OAuth local setup:
 
@@ -181,6 +195,8 @@ Gmail import browser check:
 3. Choose how many emails to scan and how far back to search.
 4. Start the scan.
 5. Confirm a scan history row is created and matching Gmail message previews appear.
+6. Open `/detected-subscriptions`.
+7. Confirm a valid detection to add it to `/subscriptions`, or dismiss a false positive.
 
 Run quality checks:
 
@@ -192,7 +208,5 @@ npm run build
 
 ## Remaining major steps
 
-1. Subscription detection engine and confidence scoring.
-2. User confirmation flow for detected subscriptions.
-3. Reminder scheduling and email notifications.
-4. Telegram bot integration.
+1. Reminder scheduling and email notifications.
+2. Telegram bot integration.

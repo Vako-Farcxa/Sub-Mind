@@ -15,6 +15,10 @@ export function useStartEmailScan() {
 
   return useMutation({
     mutationFn: startEmailScan,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["email-scans"] }),
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["email-scans"] }),
+        queryClient.invalidateQueries({ queryKey: ["detected-subscriptions"] }),
+      ]),
   });
 }

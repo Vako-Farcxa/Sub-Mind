@@ -28,8 +28,84 @@ const KNOWN_PROVIDERS = Object.freeze([
   "Microsoft 365",
 ]);
 
+const KNOWN_PROVIDER_PATTERNS = Object.freeze([
+  {
+    name: "Netflix",
+    category: "Entertainment",
+    aliases: ["netflix"],
+    domains: ["netflix.com"],
+  },
+  {
+    name: "Spotify",
+    category: "Entertainment",
+    aliases: ["spotify"],
+    domains: ["spotify.com"],
+  },
+  {
+    name: "YouTube Premium",
+    category: "Entertainment",
+    aliases: ["youtube premium", "youtube", "google youtube"],
+    domains: ["youtube.com", "google.com"],
+  },
+  {
+    name: "ChatGPT Plus",
+    category: "AI tools",
+    aliases: ["chatgpt", "openai", "chatgpt plus"],
+    domains: ["openai.com"],
+  },
+  {
+    name: "Adobe",
+    category: "Productivity",
+    aliases: ["adobe", "creative cloud"],
+    domains: ["adobe.com"],
+  },
+  {
+    name: "Canva",
+    category: "Productivity",
+    aliases: ["canva"],
+    domains: ["canva.com"],
+  },
+  {
+    name: "Amazon Prime",
+    category: "Entertainment",
+    aliases: ["amazon prime", "prime membership"],
+    domains: ["amazon.com"],
+  },
+  {
+    name: "Notion",
+    category: "Productivity",
+    aliases: ["notion"],
+    domains: ["notion.so"],
+  },
+  {
+    name: "GitHub Copilot",
+    category: "AI tools",
+    aliases: ["github copilot", "copilot", "github"],
+    domains: ["github.com"],
+  },
+  {
+    name: "Apple",
+    category: "Entertainment",
+    aliases: ["apple", "icloud", "apple one"],
+    domains: ["apple.com"],
+  },
+  {
+    name: "Google One",
+    category: "Cloud storage",
+    aliases: ["google one", "google storage"],
+    domains: ["google.com"],
+  },
+  {
+    name: "Microsoft 365",
+    category: "Productivity",
+    aliases: ["microsoft 365", "office 365", "microsoft"],
+    domains: ["microsoft.com"],
+  },
+]);
+
 module.exports = {
   BILLING_CYCLES,
   KNOWN_PROVIDERS,
+  KNOWN_PROVIDER_PATTERNS,
   SUBSCRIPTION_STATUSES,
 };
