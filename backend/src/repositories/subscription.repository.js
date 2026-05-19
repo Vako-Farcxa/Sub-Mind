@@ -14,6 +14,30 @@ const subscriptionRepository = {
     });
   },
 
+  listRenewingBetween(startDate, endDate) {
+    const prisma = getPrisma();
+
+    return prisma.subscription.findMany({
+      where: {
+        status: {
+          in: ["ACTIVE", "TRIALING"],
+        },
+        renewalDate: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      include: {
+        user: {
+          include: {
+            reminderSettings: true,
+          },
+        },
+      },
+      orderBy: [{ renewalDate: "asc" }],
+    });
+  },
+
   findByIdForUser(id, userId) {
     const prisma = getPrisma();
 

@@ -16,6 +16,17 @@ const envSchema = z.object({
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
   GOOGLE_REDIRECT_URI: z.string().url().optional(),
+  REMINDER_JOB_ENABLED: z
+    .enum(["true", "false"])
+    .transform((value) => value === "true")
+    .default("true"),
+  REMINDER_JOB_CRON: z.string().default("*/15 * * * *"),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().int().positive().optional(),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional(),
+  SMTP_FROM: z.string().email().optional(),
+  TELEGRAM_BOT_TOKEN: z.string().optional(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);

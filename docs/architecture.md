@@ -121,3 +121,20 @@ Protected React page
 Dashboard analytics intentionally reuse the subscription service instead of calculating totals in
 the browser. This keeps billing-cycle rules consistent across every client and makes the calculations
 easy to test without rendering UI.
+
+## Reminder and notification flow
+
+```txt
+Cron reminder job or manual settings action
+  -> notification service
+  -> upcoming active/trialing subscription lookup
+  -> reminder planner
+  -> idempotent Notification upsert
+  -> due notification delivery
+  -> IN_APP, EMAIL, or TELEGRAM sender
+```
+
+Reminder creation and delivery are separate steps. Creation is idempotent per user, subscription,
+channel, and scheduled time so repeated cron runs do not spam duplicate reminders. External delivery
+is only attempted for configured channels; failures are stored on the notification record for user
+visibility.

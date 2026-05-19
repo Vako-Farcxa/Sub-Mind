@@ -29,6 +29,9 @@ export default function Home() {
           <Link href="/detected-subscriptions" className="hover:text-white">
             Detections
           </Link>
+          <Link href="/settings" className="hover:text-white">
+            Settings
+          </Link>
           <Link href="/login" className="hover:text-white">
             Login
           </Link>

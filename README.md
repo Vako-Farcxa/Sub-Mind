@@ -62,6 +62,19 @@ This milestone turns Gmail scans into reviewable subscription candidates:
 - Confirm flow that creates a real subscription.
 - Dismiss flow for false positives.
 
+### Milestone 6: Reminders, email, and Telegram
+
+This milestone completes the notification loop:
+
+- Reminder settings page.
+- In-app notification history.
+- Renewal reminder planning for active/trialing subscriptions.
+- Idempotent notification creation for upcoming renewals.
+- SMTP email delivery.
+- Telegram bot delivery.
+- Cron-backed reminder job on backend startup.
+- Manual reminder run action for development checks.
+
 ## Repository structure
 
 ```txt
@@ -161,6 +174,7 @@ Open the browser preview:
 - Add subscription: `http://localhost:3000/subscriptions/new`
 - Gmail import: `http://localhost:3000/gmail-import`
 - Detected subscriptions: `http://localhost:3000/detected-subscriptions`
+- Settings and reminders: `http://localhost:3000/settings`
 
 Google OAuth local setup:
 
@@ -174,6 +188,12 @@ GOOGLE_CLIENT_SECRET=your-client-secret
 GOOGLE_REDIRECT_URI=http://localhost:4000/api/auth/google/callback
 JWT_ACCESS_SECRET=replace-with-at-least-32-random-characters
 JWT_REFRESH_SECRET=replace-with-at-least-32-random-characters
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=replace-with-smtp-user
+SMTP_PASS=replace-with-smtp-password
+SMTP_FROM=notifications@example.com
+TELEGRAM_BOT_TOKEN=replace-with-telegram-bot-token
 ```
 
 Without those values, the login page still renders but Google login will fail safely with a
@@ -198,6 +218,15 @@ Gmail import browser check:
 6. Open `/detected-subscriptions`.
 7. Confirm a valid detection to add it to `/subscriptions`, or dismiss a false positive.
 
+Reminder and notification browser check:
+
+1. Open `/settings`.
+2. Configure days-before-renewal, email, and Telegram options.
+3. Add a subscription with a renewal date inside the configured reminder window.
+4. Click "Run reminders now" in notification history.
+5. Confirm in-app notifications appear. Email and Telegram delivery require SMTP and bot
+   environment variables.
+
 Run quality checks:
 
 ```bash
@@ -208,5 +237,6 @@ npm run build
 
 ## Remaining major steps
 
-1. Reminder scheduling and email notifications.
-2. Telegram bot integration.
+The core portfolio app roadmap is implemented. Future hardening should focus on production
+deployment configuration, background worker isolation, pagination, richer detection editing, and
+provider administration.

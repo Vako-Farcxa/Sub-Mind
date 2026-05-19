@@ -75,3 +75,16 @@ All detected subscription endpoints require a valid auth cookie or bearer token.
 
 Confirmation accepts optional override fields such as `amount`, `billingCycle`, `renewalDate`, and
 `category` for detections that need user correction before becoming subscriptions.
+
+## Reminder and notification endpoints
+
+All reminder and notification endpoints require a valid auth cookie or bearer token.
+
+- `GET /api/reminder-settings` returns the current user's reminder preferences.
+- `PATCH /api/reminder-settings` updates reminder preferences, including Telegram chat ID.
+- `GET /api/notifications` lists notification history.
+- `POST /api/notifications/run-reminders` manually runs reminder planning and delivery.
+- `POST /api/notifications/:id/read` marks a notification read.
+
+Email delivery requires SMTP environment values. Telegram delivery requires `TELEGRAM_BOT_TOKEN` and
+a user-level Telegram chat ID in reminder settings.

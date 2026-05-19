@@ -36,6 +36,7 @@ OAuth once the backend environment is configured.
 - `/dashboard` protected dashboard with summary widgets
 - `/gmail-import` protected Gmail scan page
 - `/detected-subscriptions` protected detection review queue
+- `/settings` protected reminder, notification, email, and Telegram settings
 - `/subscriptions` protected subscription list
 - `/subscriptions/new` protected create form
 - `/subscriptions/:id/edit` protected edit form

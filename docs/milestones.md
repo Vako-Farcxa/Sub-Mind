@@ -42,3 +42,13 @@ Current milestone:
 - [x] User confirmation flow.
 - [ ] Inline edit-before-confirm for incomplete detections.
 - [ ] Provider pattern admin/config surface.
+
+## Phase 5: Reminders and notifications
+
+- [x] Reminder settings.
+- [x] In-app notification history.
+- [x] Renewal reminder planning.
+- [x] Cron-backed reminder job.
+- [x] Email notification integration.
+- [x] Telegram bot integration.
+- [ ] Dedicated worker deployment for production-scale reminders.
