@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AuthGate } from "@/components/auth-gate";
+import { SubscriptionForm } from "@/components/subscription-form";
 
 export default function NewSubscriptionPage() {
   return (
@@ -11,9 +12,10 @@ export default function NewSubscriptionPage() {
           </Link>
           <h1 className="mt-6 text-3xl font-semibold tracking-tight">Add subscription</h1>
           <p className="mt-3 text-slate-600 dark:text-slate-400">
-            The manual subscription form will be implemented in Phase 2 after the backend CRUD API
-            is connected to React Query.
+            Track a recurring charge manually. Gmail-detected subscriptions will use the same data
+            model after user confirmation.
           </p>
+          <SubscriptionForm />
         </section>
       </main>
     </AuthGate>

@@ -6,6 +6,7 @@ const { asyncHandler } = require("../utils/asyncHandler");
 const {
   createSubscriptionSchema,
   deleteSubscriptionSchema,
+  getSubscriptionSchema,
   listSubscriptionsSchema,
   updateSubscriptionSchema,
 } = require("../validators/subscription.validator");
@@ -15,6 +16,8 @@ const router = Router();
 router.use(requireAuth);
 
 router.get("/", validate(listSubscriptionsSchema), asyncHandler(subscriptionController.list));
+router.get("/summary", asyncHandler(subscriptionController.summary));
+router.get("/:id", validate(getSubscriptionSchema), asyncHandler(subscriptionController.getById));
 router.post("/", validate(createSubscriptionSchema), asyncHandler(subscriptionController.create));
 router.patch(
   "/:id",

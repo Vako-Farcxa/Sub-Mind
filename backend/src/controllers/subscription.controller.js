@@ -8,6 +8,18 @@ const subscriptionController = {
     return sendSuccess(res, subscriptions);
   },
 
+  async summary(req, res) {
+    const summary = await subscriptionService.getSummary(req.user.id);
+
+    return sendSuccess(res, summary);
+  },
+
+  async getById(req, res) {
+    const subscription = await subscriptionService.getById(req.user.id, req.validated.params.id);
+
+    return sendSuccess(res, subscription);
+  },
+
   async create(req, res) {
     const subscription = await subscriptionService.create(req.user.id, req.validated.body);
 

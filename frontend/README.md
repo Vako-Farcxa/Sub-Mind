@@ -25,6 +25,15 @@ Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_API_URL` to the backend
 cp frontend/.env.example frontend/.env.local
 ```
 
-The frontend includes the landing page, login page, protected dashboard shell, React Query provider,
-auth hooks, and Zustand UI store. Visit `/login` to start Google OAuth once the backend environment
-is configured.
+The frontend includes the landing page, login page, protected dashboard shell, subscription CRUD
+screens, React Query provider, auth hooks, and Zustand UI store. Visit `/login` to start Google
+OAuth once the backend environment is configured.
+
+## Product routes
+
+- `/` landing page
+- `/login` Google OAuth entry point
+- `/dashboard` protected dashboard with summary widgets
+- `/subscriptions` protected subscription list
+- `/subscriptions/new` protected create form
+- `/subscriptions/:id/edit` protected edit form

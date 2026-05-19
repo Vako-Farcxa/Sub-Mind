@@ -15,10 +15,12 @@ Current milestone:
 
 ## Phase 2: Manual subscriptions
 
-- CRUD subscriptions.
-- Category management.
-- Monthly and yearly spending calculations.
-- Upcoming renewal tracking.
+- [x] CRUD subscriptions.
+- [x] Category management.
+- [x] Monthly and yearly spending calculations.
+- [x] Upcoming renewal tracking.
+- [ ] Rich empty states and onboarding tips.
+- [ ] Server-side pagination for large subscription lists.
 
 ## Phase 3: Gmail integration
 

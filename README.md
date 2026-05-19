@@ -28,6 +28,16 @@ This milestone adds the first real app workflow:
 - React Query current-user loading.
 - Protected dashboard and add-subscription pages.
 
+### Milestone 3: Manual subscriptions
+
+This milestone turns the shell into the first usable product slice:
+
+- Subscription list, add, edit, and delete screens.
+- React Query hooks for subscription server state.
+- Dashboard summary endpoint and widgets.
+- Monthly/yearly spend normalization across weekly, monthly, yearly, and trial cycles.
+- Category breakdown and upcoming renewal calculations.
+
 ## Repository structure
 
 ```txt
@@ -122,6 +132,9 @@ Open the browser preview:
 
 - Frontend: `http://localhost:3000`
 - Backend health check: `http://localhost:4000/api/health`
+- Protected dashboard: `http://localhost:3000/dashboard`
+- Subscription list: `http://localhost:3000/subscriptions`
+- Add subscription: `http://localhost:3000/subscriptions/new`
 
 Google OAuth local setup:
 
@@ -140,6 +153,15 @@ JWT_REFRESH_SECRET=replace-with-at-least-32-random-characters
 Without those values, the login page still renders but Google login will fail safely with a
 configuration error.
 
+Manual subscription browser check:
+
+1. Sign in through Google so the backend sets auth cookies.
+2. Open `/subscriptions/new`.
+3. Create a subscription with a provider, amount, billing cycle, and renewal date.
+4. Open `/subscriptions` to edit or delete the record.
+5. Open `/dashboard` to see monthly spend, yearly projection, upcoming renewals, and category
+   breakdown update from the API.
+
 Run quality checks:
 
 ```bash
@@ -150,10 +172,8 @@ npm run build
 
 ## Remaining major steps
 
-1. Manual subscription CRUD UI and API completion.
-2. Spending calculations and category analytics.
-3. Gmail scan job creation and email fetching.
-4. Subscription detection engine and confidence scoring.
-5. User confirmation flow for detected subscriptions.
-6. Reminder scheduling and email notifications.
-7. Telegram bot integration.
+1. Gmail scan job creation and email fetching.
+2. Subscription detection engine and confidence scoring.
+3. User confirmation flow for detected subscriptions.
+4. Reminder scheduling and email notifications.
+5. Telegram bot integration.

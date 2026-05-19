@@ -71,3 +71,20 @@ The Gmail detection engine should be introduced under `backend/src/services` and
 `backend/src/integrations/gmail` later. It should emit `DetectedSubscription` records rather than
 creating real subscriptions directly. Users confirm detections before they become active
 subscriptions.
+
+## Manual subscription flow
+
+```txt
+Protected React page
+  -> React Query hook
+  -> Express subscription route
+  -> Zod validator
+  -> subscription controller
+  -> subscription service
+  -> subscription repository
+  -> Prisma Subscription model
+```
+
+Dashboard analytics intentionally reuse the subscription service instead of calculating totals in
+the browser. This keeps billing-cycle rules consistent across every client and makes the calculations
+easy to test without rendering UI.

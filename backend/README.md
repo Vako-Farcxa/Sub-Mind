@@ -42,3 +42,14 @@ Never commit real OAuth credentials, JWT secrets, or database URLs.
 
 Google OAuth requires `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`,
 `JWT_ACCESS_SECRET`, and `JWT_REFRESH_SECRET`.
+
+## Subscription endpoints
+
+All subscription endpoints require a valid auth cookie or bearer token.
+
+- `GET /api/subscriptions` lists subscriptions.
+- `GET /api/subscriptions/summary` returns dashboard spend and renewal summary data.
+- `GET /api/subscriptions/:id` returns one subscription.
+- `POST /api/subscriptions` creates a manual subscription.
+- `PATCH /api/subscriptions/:id` updates a subscription.
+- `DELETE /api/subscriptions/:id` deletes a subscription.
