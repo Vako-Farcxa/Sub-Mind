@@ -1,11 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  listNotifications,
-  markNotificationRead,
-  runReminderCycle,
-} from "@/lib/notification-api";
+import { listNotifications, markNotificationRead, runReminderCycle } from "@/lib/notification-api";
 import { getReminderSettings, updateReminderSettings } from "@/lib/reminder-settings-api";
 
 export function useReminderSettings() {

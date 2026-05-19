@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useReminderSettings, useUpdateReminderSettings } from "@/hooks/use-reminders";
 
 const defaultForm = {
@@ -11,24 +11,21 @@ const defaultForm = {
   telegramChatId: "",
 };
 
-export function ReminderSettingsForm() {
-  const { data: settings, isError, isLoading } = useReminderSettings();
+function buildFormState(settings) {
+  return {
+    enabled: settings?.enabled ?? defaultForm.enabled,
+    daysBefore: settings?.daysBefore ?? defaultForm.daysBefore,
+    emailEnabled: settings?.emailEnabled ?? defaultForm.emailEnabled,
+    telegramEnabled: settings?.telegramEnabled ?? defaultForm.telegramEnabled,
+    telegramChatId: settings?.telegramChatId || "",
+  };
+}
+
+function ReminderSettingsFormFields({ settings }) {
   const updateMutation = useUpdateReminderSettings();
-  const [form, setForm] = useState(defaultForm);
+  const [form, setForm] = useState(() => buildFormState(settings));
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  useEffect(() => {
-    if (settings) {
-      setForm({
-        enabled: settings.enabled,
-        daysBefore: settings.daysBefore,
-        emailEnabled: settings.emailEnabled,
-        telegramEnabled: settings.telegramEnabled,
-        telegramChatId: settings.telegramChatId || "",
-      });
-    }
-  }, [settings]);
 
   const updateField = (field, value) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -49,25 +46,6 @@ export function ReminderSettingsForm() {
       setErrorMessage(error.response?.data?.message || "Unable to save reminder settings.");
     }
   };
-
-  if (isLoading) {
-    return (
-      <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
-        <p className="text-sm text-slate-500 dark:text-slate-400">Loading reminder settings...</p>
-      </div>
-    );
-  }
-
-  if (isError) {
-    return (
-      <div className="rounded-[2rem] border border-red-200 bg-white p-6 shadow-sm dark:border-red-900/60 dark:bg-slate-900">
-        <h2 className="text-xl font-semibold">Unable to load settings</h2>
-        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-          Check that the backend API is running.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <form
@@ -169,4 +147,29 @@ export function ReminderSettingsForm() {
       </button>
     </form>
   );
+}
+
+export function ReminderSettingsForm() {
+  const { data: settings, isError, isLoading } = useReminderSettings();
+
+  if (isLoading) {
+    return (
+      <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-slate-900">
+        <p className="text-sm text-slate-500 dark:text-slate-400">Loading reminder settings...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="rounded-[2rem] border border-red-200 bg-white p-6 shadow-sm dark:border-red-900/60 dark:bg-slate-900">
+        <h2 className="text-xl font-semibold">Unable to load settings</h2>
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          Check that the backend API is running.
+        </p>
+      </div>
+    );
+  }
+
+  return <ReminderSettingsFormFields key={settings?.id || "default"} settings={settings} />;
 }
