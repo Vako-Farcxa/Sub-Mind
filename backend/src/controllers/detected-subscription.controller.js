@@ -19,7 +19,10 @@ const detectedSubscriptionController = {
   },
 
   async dismiss(req, res) {
-    const detection = await detectedSubscriptionService.dismiss(req.user.id, req.validated.params.id);
+    const detection = await detectedSubscriptionService.dismiss(
+      req.user.id,
+      req.validated.params.id,
+    );
 
     return sendSuccess(res, detection);
   },

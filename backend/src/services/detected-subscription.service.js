@@ -1,11 +1,14 @@
-const { detectedSubscriptionRepository } = require("../repositories/detected-subscription.repository");
+const {
+  detectedSubscriptionRepository,
+} = require("../repositories/detected-subscription.repository");
 const { subscriptionRepository } = require("../repositories/subscription.repository");
 const { AppError } = require("../utils/appError");
 const { serializeSubscription } = require("./subscription.service");
 
 const serializeDetectedSubscription = (detection) => ({
   ...detection,
-  amount: detection.amount === null || detection.amount === undefined ? null : Number(detection.amount),
+  amount:
+    detection.amount === null || detection.amount === undefined ? null : Number(detection.amount),
   renewalDate: detection.renewalDate?.toISOString?.() || detection.renewalDate || null,
   confirmedAt: detection.confirmedAt?.toISOString?.() || detection.confirmedAt || null,
   dismissedAt: detection.dismissedAt?.toISOString?.() || detection.dismissedAt || null,

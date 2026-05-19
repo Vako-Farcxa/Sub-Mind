@@ -15,9 +15,7 @@ export default function DetectedSubscriptionsPage() {
               >
                 Back to Gmail import
               </Link>
-              <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-                Detected subscriptions
-              </h1>
+              <h1 className="mt-3 text-4xl font-semibold tracking-tight">Detected subscriptions</h1>
               <p className="mt-2 max-w-2xl text-slate-600 dark:text-slate-400">
                 Review confidence-scored subscriptions from Gmail scans. Nothing is added to your
                 active subscription list until you confirm it.

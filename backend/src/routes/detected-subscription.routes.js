@@ -15,7 +15,11 @@ const router = Router();
 
 router.use(requireAuth);
 
-router.get("/", validate(listDetectedSubscriptionsSchema), asyncHandler(detectedSubscriptionController.list));
+router.get(
+  "/",
+  validate(listDetectedSubscriptionsSchema),
+  asyncHandler(detectedSubscriptionController.list),
+);
 router.post(
   "/:id/confirm",
   validate(confirmDetectedSubscriptionSchema),

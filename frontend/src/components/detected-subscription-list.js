@@ -21,7 +21,11 @@ function FieldValue({ label, children }) {
 
 export function DetectedSubscriptionList() {
   const [errorMessage, setErrorMessage] = useState("");
-  const { data: detections = [], isError, isLoading } = useDetectedSubscriptions({
+  const {
+    data: detections = [],
+    isError,
+    isLoading,
+  } = useDetectedSubscriptions({
     state: "pending",
     limit: 50,
   });
@@ -129,7 +133,9 @@ export function DetectedSubscriptionList() {
                   : "Needs review"}
               </FieldValue>
               <FieldValue label="Billing cycle">
-                {detection.billingCycle ? formatBillingCycle(detection.billingCycle) : "Needs review"}
+                {detection.billingCycle
+                  ? formatBillingCycle(detection.billingCycle)
+                  : "Needs review"}
               </FieldValue>
               <FieldValue label="Predicted renewal">
                 {detection.renewalDate ? formatDate(detection.renewalDate) : "Needs review"}

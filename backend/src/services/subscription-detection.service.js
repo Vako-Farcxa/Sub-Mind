@@ -17,8 +17,6 @@ const MIN_CONFIDENCE_SCORE = 50;
 
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-const includesAny = (content, values) => values.some((value) => content.includes(value));
-
 const parseSenderDomain = (sender = "") => {
   const emailMatch = sender.match(/@([a-z0-9.-]+\.[a-z]{2,})/i);
 
@@ -58,7 +56,9 @@ const extractPrice = (content) => {
     "€": "EUR",
     "£": "GBP",
   };
-  const symbolPattern = new RegExp(`([${Object.keys(currencySymbols).map(escapeRegex).join("")}])\\s?(\\d+(?:[.,]\\d{2})?)`);
+  const symbolPattern = new RegExp(
+    `([${Object.keys(currencySymbols).map(escapeRegex).join("")}])\\s?(\\d+(?:[.,]\\d{2})?)`,
+  );
   const symbolMatch = content.match(symbolPattern);
 
   if (symbolMatch) {
@@ -137,7 +137,14 @@ const inferRenewalDate = (messageDate, billingCycle) => {
 const getMatchedKeywords = (content) =>
   DETECTION_KEYWORDS.filter((keyword) => content.includes(keyword));
 
-const scoreDetection = ({ provider, amount, billingCycle, renewalDate, senderDomain, matchedKeywords }) => {
+const scoreDetection = ({
+  provider,
+  amount,
+  billingCycle,
+  renewalDate,
+  senderDomain,
+  matchedKeywords,
+}) => {
   let score = 0;
 
   if (provider) score += 30;
@@ -151,7 +158,8 @@ const scoreDetection = ({ provider, amount, billingCycle, renewalDate, senderDom
 };
 
 const detectSubscriptionFromMessage = (message) => {
-  const content = `${message.sender || ""} ${message.subject || ""} ${message.snippet || ""}`.toLowerCase();
+  const content =
+    `${message.sender || ""} ${message.subject || ""} ${message.snippet || ""}`.toLowerCase();
   const provider = inferProvider(message);
   const senderDomain = parseSenderDomain(message.sender);
   const matchedKeywords = getMatchedKeywords(content);
