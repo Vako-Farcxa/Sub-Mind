@@ -1,5 +1,5 @@
 const { env } = require("./config/env");
-const { prisma } = require("./db/prisma");
+const { disconnectPrisma } = require("./db/prisma");
 const { app } = require("./app");
 
 const server = app.listen(env.PORT, () => {
@@ -9,7 +9,7 @@ const server = app.listen(env.PORT, () => {
 const shutdown = async (signal) => {
   console.log(`${signal} received. Shutting down API server.`);
   server.close(async () => {
-    await prisma.$disconnect();
+    await disconnectPrisma();
     process.exit(0);
   });
 };

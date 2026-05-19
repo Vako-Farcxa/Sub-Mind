@@ -1,7 +1,9 @@
-const { prisma } = require("../db/prisma");
+const { getPrisma } = require("../db/prisma");
 
 const subscriptionRepository = {
   listByUser(userId, filters = {}) {
+    const prisma = getPrisma();
+
     return prisma.subscription.findMany({
       where: {
         userId,
@@ -13,16 +15,22 @@ const subscriptionRepository = {
   },
 
   findByIdForUser(id, userId) {
+    const prisma = getPrisma();
+
     return prisma.subscription.findFirst({
       where: { id, userId },
     });
   },
 
   create(data) {
+    const prisma = getPrisma();
+
     return prisma.subscription.create({ data });
   },
 
   update(id, data) {
+    const prisma = getPrisma();
+
     return prisma.subscription.update({
       where: { id },
       data,
@@ -30,6 +38,8 @@ const subscriptionRepository = {
   },
 
   delete(id) {
+    const prisma = getPrisma();
+
     return prisma.subscription.delete({
       where: { id },
     });

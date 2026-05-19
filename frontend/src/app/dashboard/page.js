@@ -31,9 +31,17 @@ export default function DashboardPage() {
 
         <section className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           <StatCard label="Monthly spend" value="$143.48" helper="Across 9 active subscriptions" />
-          <StatCard label="Yearly projection" value="$1,721" helper="Based on active billing cycles" />
+          <StatCard
+            label="Yearly projection"
+            value="$1,721"
+            helper="Based on active billing cycles"
+          />
           <StatCard label="Upcoming renewals" value="4" helper="Due in the next 7 days" />
-          <StatCard label="Potential savings" value="$32" helper="Trials and duplicates to review" />
+          <StatCard
+            label="Potential savings"
+            value="$32"
+            helper="Trials and duplicates to review"
+          />
         </section>
 
         <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_380px]">
