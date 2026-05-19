@@ -1,0 +1,43 @@
+{
+  "name": "sub-mind",
+  "version": "1.0.0",
+  "description": "SubMind is a privacy-first subscription tracker that warns you before free trials turn into surprise charges, giving you one-tap access to direct cancellation links without ever needing to link your bank account",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "dev:frontend": "npm run dev -w frontend",
+    "dev:backend": "npm run dev -w backend",
+    "build": "npm run build -w frontend",
+    "lint": "npm run lint -w backend && npm run lint -w frontend",
+    "format": "prettier --check .",
+    "format:write": "prettier --write .",
+    "test": "npm run test -w backend",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vako-Farcxa/Sub-Mind.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vako-Farcxa/Sub-Mind/issues"
+  },
+  "homepage": "https://github.com/Vako-Farcxa/Sub-Mind#readme",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "lint-staged": {
+    "*.{js,jsx,json,md,css,mjs,cjs,prisma}": "prettier --write",
+    "frontend/**/*.{js,jsx}": "npm run lint -w frontend --",
+    "backend/**/*.js": "npm run lint -w backend --"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.5",
+    "prettier": "^3.8.3"
+  }
+}

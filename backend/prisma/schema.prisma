@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum BillingCycle {
+  WEEKLY
+  MONTHLY
+  YEARLY
+  TRIAL
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAUSED
+  CANCELLED
+  EXPIRED
+  TRIALING
+}
+
+enum OAuthProvider {
+  GOOGLE
+}
+
+enum EmailScanStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum NotificationChannel {
+  EMAIL
+  TELEGRAM
+  IN_APP
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+  READ
+}
+
+model User {
+  id                    String                 @id @default(uuid())
+  email                 String                 @unique
+  name                  String?
+  avatarUrl             String?
+  passwordHash          String?
+  status                UserStatus             @default(ACTIVE)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  subscriptions         Subscription[]
+  detectedSubscriptions DetectedSubscription[]
+  reminderSettings      ReminderSettings?
+  notifications         Notification[]
+  oauthAccounts         OAuthAccount[]
+  emailScans            EmailScan[]
+
+  @@index([email])
+}
+
+model Subscription {
+  id          String             @id @default(uuid())
+  userId      String
+  name        String
+  provider    String
+  category    String
+  amount      Decimal            @db.Decimal(10, 2)
+  billingCycle BillingCycle
+  currency    String             @default("USD")
+  renewalDate DateTime
+  trialEndsAt DateTime?
+  status      SubscriptionStatus @default(ACTIVE)
+  source      String             @default("manual")
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([renewalDate])
+  @@index([status])
+}
+
+model DetectedSubscription {
+  id              String        @id @default(uuid())
+  userId          String
+  emailScanId     String?
+  provider        String
+  name            String
+  category        String?
+  amount          Decimal?      @db.Decimal(10, 2)
+  billingCycle    BillingCycle?
+  currency        String?
+  renewalDate     DateTime?
+  sender          String
+  subject         String
+  confidenceScore Int
+  rawEmailId      String
+  confirmedAt     DateTime?
+  dismissedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailScan       EmailScan?    @relation(fields: [emailScanId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([confidenceScore])
+  @@index([rawEmailId])
+}
+
+model ReminderSettings {
+  id             String   @id @default(uuid())
+  userId         String   @unique
+  enabled        Boolean  @default(true)
+  daysBefore     Int      @default(3)
+  emailEnabled   Boolean  @default(true)
+  telegramEnabled Boolean @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id             String              @id @default(uuid())
+  userId         String
+  channel        NotificationChannel
+  status         NotificationStatus  @default(PENDING)
+  title          String
+  message        String
+  scheduledFor   DateTime
+  sentAt         DateTime?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  user           User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([scheduledFor])
+  @@index([status])
+}
+
+model OAuthAccount {
+  id                String        @id @default(uuid())
+  userId            String
+  provider          OAuthProvider
+  providerAccountId String
+  accessToken       String?
+  refreshToken      String?
+  scope             String?
+  expiresAt         DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model EmailScan {
+  id                    String                 @id @default(uuid())
+  userId                String
+  status                EmailScanStatus         @default(QUEUED)
+  query                 String
+  scannedCount          Int                     @default(0)
+  detectedCount         Int                     @default(0)
+  startedAt             DateTime?
+  completedAt           DateTime?
+  errorMessage          String?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  detectedSubscriptions DetectedSubscription[]
+
+  @@index([userId])
+  @@index([status])
+}
