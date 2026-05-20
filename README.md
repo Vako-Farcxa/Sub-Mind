@@ -53,8 +53,9 @@ This milestone connects the Gmail integration boundary:
 
 This milestone turns Gmail scans into reviewable subscription candidates:
 
-- Known-provider matching for Netflix, Spotify, YouTube Premium, ChatGPT Plus, Adobe, Canva,
-  Amazon Prime, Notion, GitHub Copilot, Apple, Google One, and Microsoft 365.
+- Database-backed provider catalog matching with providers, aliases, and domains.
+- Seeded provider catalog data for common services, without hardcoding providers in detection code.
+- Provider learning from confirmed detections.
 - Sender/domain, subject, snippet, price, billing-cycle, and renewal-date parsing.
 - Confidence scoring.
 - `DetectedSubscription` persistence with duplicate prevention.

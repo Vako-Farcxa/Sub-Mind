@@ -1,8 +1,10 @@
 const {
   detectedSubscriptionRepository,
 } = require("../repositories/detected-subscription.repository");
+const { providerRepository } = require("../repositories/provider.repository");
 const { subscriptionRepository } = require("../repositories/subscription.repository");
 const { AppError } = require("../utils/appError");
+const { parseSenderDomain } = require("./subscription-detection.service");
 const { serializeSubscription } = require("./subscription.service");
 
 const serializeDetectedSubscription = (detection) => ({
@@ -48,6 +50,19 @@ const buildSubscriptionInput = (detection, overrides = {}) => {
   };
 };
 
+const shouldLearnSenderDomain = (detection) => {
+  const domain = parseSenderDomain(detection.sender);
+
+  if (!domain) {
+    return null;
+  }
+
+  const isMarketplaceSender =
+    domain === "google.com" && /google play/i.test(detection.sender || detection.subject || "");
+
+  return isMarketplaceSender ? null : domain;
+};
+
 const detectedSubscriptionService = {
   async list(userId, filters) {
     const detections = await detectedSubscriptionRepository.listByUser(userId, filters);
@@ -89,6 +104,12 @@ const detectedSubscriptionService = {
     const subscription = await subscriptionRepository.create({
       ...buildSubscriptionInput(detection, overrides),
       userId,
+    });
+    await providerRepository.upsertProvider({
+      name: overrides.provider ?? detection.provider,
+      category: overrides.category ?? detection.category ?? "Other",
+      alias: overrides.name ?? detection.name,
+      domain: shouldLearnSenderDomain(detection),
     });
     const confirmedDetection = await detectedSubscriptionRepository.markConfirmed(detection.id);
 

@@ -70,6 +70,42 @@ model User {
   @@index([email])
 }
 
+model Provider {
+  id               String           @id @default(uuid())
+  name             String           @unique
+  category         String           @default("Other")
+  logoUrl          String?
+  confidenceWeight Int              @default(30)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  aliases          ProviderAlias[]
+  domains          ProviderDomain[]
+
+  @@index([name])
+}
+
+model ProviderAlias {
+  id         String   @id @default(uuid())
+  providerId String
+  value      String
+  createdAt  DateTime @default(now())
+  provider   Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, value])
+  @@index([value])
+}
+
+model ProviderDomain {
+  id         String   @id @default(uuid())
+  providerId String
+  domain     String
+  createdAt  DateTime @default(now())
+  provider   Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, domain])
+  @@index([domain])
+}
+
 model Subscription {
   id          String             @id @default(uuid())
   userId      String

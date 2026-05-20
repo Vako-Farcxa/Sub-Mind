@@ -40,8 +40,10 @@ Current milestone:
 - [x] Renewal prediction.
 - [x] Confidence scoring.
 - [x] User confirmation flow.
+- [x] Database-backed provider catalog.
+- [x] Provider learning from confirmed detections.
 - [ ] Inline edit-before-confirm for incomplete detections.
-- [ ] Provider pattern admin/config surface.
+- [ ] Provider catalog admin/config surface.
 
 ## Phase 5: Reminders and notifications
 

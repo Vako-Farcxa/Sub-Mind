@@ -72,6 +72,11 @@ records instead of creating real subscriptions directly. This is intentional: em
 probabilistic, so the system must ask the user to confirm a detection before it affects spending
 analytics or renewal reminders.
 
+Provider matching is database-backed. The detection engine receives provider catalog records from
+`Provider`, `ProviderAlias`, and `ProviderDomain` instead of importing a hardcoded provider list.
+Confirmed detections feed provider names, aliases, and safe sender domains back into the catalog so
+future scans improve without code changes.
+
 ## Gmail scan flow
 
 ```txt
@@ -81,6 +86,7 @@ Protected Gmail import page
   -> email scan service
   -> Google OAuth account lookup
   -> Gmail API metadata search
+  -> provider catalog lookup
   -> EmailScan status/count persistence
   -> detection engine
   -> DetectedSubscription persistence

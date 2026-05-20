@@ -1,5 +1,3 @@
-const { KNOWN_PROVIDER_PATTERNS } = require("../models/subscription.constants");
-
 const DETECTION_KEYWORDS = [
   "subscription",
   "renewal",
@@ -28,15 +26,24 @@ const parseSenderDomain = (sender = "") => {
   return domainMatch?.[1]?.toLowerCase() || "";
 };
 
-const inferProvider = ({ sender = "", subject = "", snippet = "" }) => {
+const toCatalogValues = (values = [], key = "value") =>
+  values.map((item) => (typeof item === "string" ? item : item[key])).filter(Boolean);
+
+const inferProvider = ({ sender = "", subject = "", snippet = "" }, providerCatalog = []) => {
   const senderDomain = parseSenderDomain(sender);
   const content = `${sender} ${subject} ${snippet}`.toLowerCase();
 
-  return KNOWN_PROVIDER_PATTERNS.find(
-    (provider) =>
-      provider.domains.some((domain) => senderDomain.endsWith(domain)) ||
-      provider.aliases.some((alias) => content.includes(alias)),
-  );
+  return providerCatalog.find((provider) => {
+    const domains = toCatalogValues(provider.domains, "domain").map((domain) =>
+      domain.toLowerCase(),
+    );
+    const aliases = toCatalogValues(provider.aliases, "value").map((alias) => alias.toLowerCase());
+
+    return (
+      domains.some((domain) => senderDomain.endsWith(domain)) ||
+      aliases.some((alias) => content.includes(alias))
+    );
+  });
 };
 
 const inferMarketplaceProviderName = ({ sender = "", subject = "" }) => {
@@ -167,7 +174,7 @@ const scoreDetection = ({
 }) => {
   let score = 0;
 
-  if (provider) score += 30;
+  if (provider) score += provider.confidenceWeight || 30;
   if (senderDomain) score += 10;
   if (matchedKeywords.length > 0) score += Math.min(25, matchedKeywords.length * 8);
   if (amount) score += 15;
@@ -177,10 +184,10 @@ const scoreDetection = ({
   return Math.min(score, 99);
 };
 
-const detectSubscriptionFromMessage = (message) => {
+const detectSubscriptionFromMessage = (message, providerCatalog = []) => {
   const content =
     `${message.sender || ""} ${message.subject || ""} ${message.snippet || ""}`.toLowerCase();
-  const provider = inferProvider(message);
+  const provider = inferProvider(message, providerCatalog);
   const marketplaceProviderName = inferMarketplaceProviderName(message);
   const senderDomain = parseSenderDomain(message.sender);
   const matchedKeywords = getMatchedKeywords(content);
@@ -221,8 +228,10 @@ const detectSubscriptionFromMessage = (message) => {
   };
 };
 
-const detectSubscriptionsFromMessages = (messages) =>
-  messages.map(detectSubscriptionFromMessage).filter(Boolean);
+const detectSubscriptionsFromMessages = (messages, providerCatalog = []) =>
+  messages
+    .map((message) => detectSubscriptionFromMessage(message, providerCatalog))
+    .filter(Boolean);
 
 module.exports = {
   detectSubscriptionFromMessage,
@@ -230,4 +239,6 @@ module.exports = {
   extractPrice,
   inferBillingCycle,
   inferRenewalDate,
+  inferMarketplaceProviderName,
+  parseSenderDomain,
 };

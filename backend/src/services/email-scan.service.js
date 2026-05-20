@@ -2,6 +2,7 @@ const { createGmailClient } = require("../integrations/gmail/gmail.client");
 const { createGoogleOAuthClient } = require("../integrations/google/oauth.client");
 const { emailScanRepository } = require("../repositories/email-scan.repository");
 const { oauthAccountRepository } = require("../repositories/oauth-account.repository");
+const { providerRepository } = require("../repositories/provider.repository");
 const { AppError } = require("../utils/appError");
 const { detectedSubscriptionService } = require("./detected-subscription.service");
 const {
@@ -100,7 +101,11 @@ const emailScanService = {
       });
       const messageRefs = listResponse.data.messages || [];
       const messagePreviews = await fetchMessagePreviews(gmail, messageRefs);
-      const detectedSubscriptions = detectSubscriptionsFromMessages(messagePreviews);
+      const providerCatalog = await providerRepository.listCatalog();
+      const detectedSubscriptions = detectSubscriptionsFromMessages(
+        messagePreviews,
+        providerCatalog,
+      );
       const savedDetections = await detectedSubscriptionService.persistDetections(
         userId,
         queuedScan.id,
