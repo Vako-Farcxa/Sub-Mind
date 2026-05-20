@@ -66,6 +66,9 @@ Render runs them during deploy with:
 npm run prisma:migrate:deploy
 ```
 
+The migrations include a seeded provider catalog (`Provider`, `ProviderAlias`, `ProviderDomain`) used
+by the detection engine. Confirmed user detections can add provider aliases/domains over time.
+
 Required backend environment variables:
 
 ```txt
