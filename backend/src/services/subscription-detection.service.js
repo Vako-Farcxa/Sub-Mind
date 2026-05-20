@@ -39,7 +39,27 @@ const inferProvider = ({ sender = "", subject = "", snippet = "" }) => {
   );
 };
 
-const inferFallbackProviderName = (sender = "") => {
+const inferMarketplaceProviderName = ({ sender = "", subject = "" }) => {
+  const senderDomain = parseSenderDomain(sender);
+  const isGooglePlayReceipt = senderDomain === "google.com" && /google play/i.test(sender);
+
+  if (!isGooglePlayReceipt) {
+    return null;
+  }
+
+  const match = subject.match(/^Your\s+(.+?)\s+subscription\b/i);
+  const providerName = match?.[1]?.replace(/\s*:\s*.+$/, "").trim();
+
+  return providerName || null;
+};
+
+const inferFallbackProviderName = ({ sender = "", subject = "" }) => {
+  const marketplaceProvider = inferMarketplaceProviderName({ sender, subject });
+
+  if (marketplaceProvider) {
+    return marketplaceProvider;
+  }
+
   const domain = parseSenderDomain(sender);
 
   if (!domain) {
@@ -161,6 +181,7 @@ const detectSubscriptionFromMessage = (message) => {
   const content =
     `${message.sender || ""} ${message.subject || ""} ${message.snippet || ""}`.toLowerCase();
   const provider = inferProvider(message);
+  const marketplaceProviderName = inferMarketplaceProviderName(message);
   const senderDomain = parseSenderDomain(message.sender);
   const matchedKeywords = getMatchedKeywords(content);
 
@@ -172,7 +193,7 @@ const detectSubscriptionFromMessage = (message) => {
   const billingCycle = inferBillingCycle(content);
   const renewalDate = inferRenewalDate(message.date, billingCycle);
   const confidenceScore = scoreDetection({
-    provider,
+    provider: provider || marketplaceProviderName,
     amount,
     billingCycle,
     renewalDate,
@@ -183,10 +204,11 @@ const detectSubscriptionFromMessage = (message) => {
   if (confidenceScore < MIN_CONFIDENCE_SCORE) {
     return null;
   }
+  const fallbackProviderName = marketplaceProviderName || inferFallbackProviderName(message);
 
   return {
-    provider: provider?.name || inferFallbackProviderName(message.sender),
-    name: provider?.name || inferFallbackProviderName(message.sender),
+    provider: provider?.name || fallbackProviderName,
+    name: provider?.name || fallbackProviderName,
     category: provider?.category || "Other",
     amount,
     billingCycle,

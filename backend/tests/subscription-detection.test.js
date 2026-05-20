@@ -45,6 +45,26 @@ describe("subscription detection engine", () => {
     expect(detection.renewalDate).toBeInstanceOf(Date);
   });
 
+  it("does not classify third-party Google Play subscriptions as YouTube Premium", () => {
+    const detection = detectSubscriptionFromMessage({
+      id: "gmail-message-google-play-setanta",
+      sender: "Google Play <googleplay-noreply@google.com>",
+      subject: "Your Setanta Sports: Sports TV App subscription will be canceled",
+      snippet:
+        "Your subscription will be canceled. You can resubscribe to Setanta Sports: Sports TV App on Google Play.",
+      date: "Tue, 19 May 2026 12:00:00 +0000",
+    });
+
+    expect(detection).toMatchObject({
+      provider: "Setanta Sports",
+      name: "Setanta Sports",
+      category: "Other",
+      billingCycle: "MONTHLY",
+      rawEmailId: "gmail-message-google-play-setanta",
+    });
+    expect(detection.provider).not.toBe("YouTube Premium");
+  });
+
   it("filters messages that do not meet the confidence threshold", () => {
     const detections = detectSubscriptionsFromMessages([
       {
