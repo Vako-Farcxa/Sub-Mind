@@ -23,6 +23,15 @@ export default function Home() {
           <Link href="/dashboard" className="hover:text-white">
             Dashboard
           </Link>
+          <Link href="/gmail-import" className="hover:text-white">
+            Gmail import
+          </Link>
+          <Link href="/detected-subscriptions" className="hover:text-white">
+            Detections
+          </Link>
+          <Link href="/settings" className="hover:text-white">
+            Settings
+          </Link>
           <Link href="/login" className="hover:text-white">
             Login
           </Link>
@@ -50,10 +59,10 @@ export default function Home() {
               View dashboard shell
             </Link>
             <Link
-              href="/login"
+              href="/gmail-import"
               className="rounded-full border border-white/15 px-6 py-3 text-center text-sm font-semibold text-white hover:bg-white/10"
             >
-              Connect Google later
+              Try Gmail import
             </Link>
           </div>
 

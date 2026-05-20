@@ -45,6 +45,14 @@ const updateSubscriptionSchema = z.object({
   query: z.object({}).optional(),
 });
 
+const getSubscriptionSchema = z.object({
+  body: z.object({}).optional(),
+  params: z.object({
+    id: z.string().uuid(),
+  }),
+  query: z.object({}).optional(),
+});
+
 const deleteSubscriptionSchema = z.object({
   body: z.object({}).optional(),
   params: z.object({
@@ -56,6 +64,7 @@ const deleteSubscriptionSchema = z.object({
 module.exports = {
   createSubscriptionSchema,
   deleteSubscriptionSchema,
+  getSubscriptionSchema,
   listSubscriptionsSchema,
   updateSubscriptionSchema,
 };

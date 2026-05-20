@@ -1,4 +1,6 @@
+const { env } = require("../config/env");
 const { authService } = require("../services/auth.service");
+const { AppError } = require("../utils/appError");
 const { sendSuccess } = require("../utils/apiResponse");
 
 const setAuthCookies = (res, tokens) => {
@@ -16,6 +18,27 @@ const setAuthCookies = (res, tokens) => {
 };
 
 const authController = {
+  startGoogleLogin(req, res) {
+    const state = authService.createOAuthState();
+    const authorizationUrl = authService.getGoogleAuthorizationUrl(state);
+
+    res.cookie("googleOAuthState", state, authService.getOAuthStateCookieOptions());
+    return res.redirect(authorizationUrl);
+  },
+
+  async googleCallback(req, res) {
+    const result = await authService.handleGoogleCallback({
+      code: req.validated.query.code,
+      state: req.validated.query.state,
+      expectedState: req.cookies?.googleOAuthState,
+    });
+
+    setAuthCookies(res, result.tokens);
+    res.clearCookie("googleOAuthState", authService.getCookieOptions());
+
+    return res.redirect(`${env.FRONTEND_URL}/dashboard`);
+  },
+
   async register(req, res) {
     const result = await authService.register(req.validated.body);
     setAuthCookies(res, result.tokens);
@@ -34,6 +57,19 @@ const authController = {
     const user = await authService.getCurrentUser(req.user.id);
 
     return sendSuccess(res, user);
+  },
+
+  async refresh(req, res) {
+    const refreshToken = req.cookies?.refreshToken;
+
+    if (!refreshToken) {
+      throw new AppError("Refresh token is required", 401);
+    }
+
+    const result = await authService.refreshSession(refreshToken);
+    setAuthCookies(res, result.tokens);
+
+    return sendSuccess(res, result.user);
   },
 
   logout(req, res) {

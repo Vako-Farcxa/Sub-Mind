@@ -9,29 +9,46 @@ Current milestone:
 - [x] Backend setup
 - [x] Prisma schema
 - [x] Dashboard shell
-- [ ] Google OAuth authentication
-- [ ] Protected frontend routes
+- [x] Google OAuth authentication foundation
+- [x] Protected frontend routes
+- [ ] Authenticated route middleware hardening
 
 ## Phase 2: Manual subscriptions
 
-- CRUD subscriptions.
-- Category management.
-- Monthly and yearly spending calculations.
-- Upcoming renewal tracking.
+- [x] CRUD subscriptions.
+- [x] Category management.
+- [x] Monthly and yearly spending calculations.
+- [x] Upcoming renewal tracking.
+- [ ] Rich empty states and onboarding tips.
+- [ ] Server-side pagination for large subscription lists.
 
 ## Phase 3: Gmail integration
 
-- Google OAuth scopes for Gmail.
-- Gmail message query and fetching.
-- Email scan records.
-- User-triggered import page.
+- [x] Google OAuth scopes for Gmail.
+- [x] Gmail message query and fetching.
+- [x] Email scan records.
+- [x] User-triggered import page.
+- [ ] Background worker queue for long scans.
+- [x] Persist normalized detections for review.
 
 ## Phase 4: Smart detection
 
-- Sender and domain parsing.
-- Subject and body keyword matching.
-- Price extraction.
-- Billing cycle inference.
-- Renewal prediction.
-- Confidence scoring.
-- User confirmation flow.
+- [x] Sender and domain parsing.
+- [x] Subject and body keyword matching.
+- [x] Price extraction.
+- [x] Billing cycle inference.
+- [x] Renewal prediction.
+- [x] Confidence scoring.
+- [x] User confirmation flow.
+- [ ] Inline edit-before-confirm for incomplete detections.
+- [ ] Provider pattern admin/config surface.
+
+## Phase 5: Reminders and notifications
+
+- [x] Reminder settings.
+- [x] In-app notification history.
+- [x] Renewal reminder planning.
+- [x] Cron-backed reminder job.
+- [x] Email notification integration.
+- [x] Telegram bot integration.
+- [ ] Dedicated worker deployment for production-scale reminders.
