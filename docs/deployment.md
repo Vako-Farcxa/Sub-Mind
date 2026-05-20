@@ -54,6 +54,18 @@ Start Command: npm run start -w backend
 Health Check Path: /api/health
 ```
 
+Prisma migrations are committed under:
+
+```txt
+backend/prisma/migrations/
+```
+
+Render runs them during deploy with:
+
+```txt
+npm run prisma:migrate:deploy
+```
+
 Required backend environment variables:
 
 ```txt

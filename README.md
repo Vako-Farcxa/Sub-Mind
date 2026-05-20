@@ -159,6 +159,12 @@ Generate Prisma client:
 npm run prisma:generate -w backend
 ```
 
+Prisma migrations live in:
+
+```txt
+backend/prisma/migrations/
+```
+
 Run both apps:
 
 ```bash
