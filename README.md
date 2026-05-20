@@ -235,6 +235,16 @@ npm run test
 npm run build
 ```
 
+## Deployment
+
+See [`docs/deployment.md`](docs/deployment.md) for the production setup path:
+
+1. Create Google OAuth credentials.
+2. Provision PostgreSQL and the backend on Render.
+3. Deploy the frontend on Vercel.
+4. Configure production environment variables.
+5. Run smoke tests.
+
 ## Remaining major steps
 
 The core portfolio app roadmap is implemented. Future hardening should focus on production

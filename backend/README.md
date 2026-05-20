@@ -32,6 +32,9 @@ cp backend/.env.example backend/.env
 
 Never commit real OAuth credentials, JWT secrets, or database URLs.
 
+For production deployment, copy `.env.production.example` into your hosting provider's environment
+settings and replace every placeholder. See `../docs/deployment.md` for Render-specific commands.
+
 ## Auth endpoints
 
 - `GET /api/auth/google` starts Google OAuth.

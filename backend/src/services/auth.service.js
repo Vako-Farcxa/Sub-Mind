@@ -30,8 +30,8 @@ const buildAuthPayload = (user) => ({
 
 const cookieOptions = {
   httpOnly: true,
-  sameSite: "lax",
-  secure: env.NODE_ENV === "production",
+  sameSite: env.COOKIE_SAME_SITE || (env.NODE_ENV === "production" ? "none" : "lax"),
+  secure: env.COOKIE_SECURE ?? env.NODE_ENV === "production",
   ...(env.COOKIE_DOMAIN ? { domain: env.COOKIE_DOMAIN } : {}),
 };
 

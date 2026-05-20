@@ -2,7 +2,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const express = require("express");
 const morgan = require("morgan");
-const { env } = require("./config/env");
+const { corsOrigins, env } = require("./config/env");
 const { buildApiRateLimiter, buildHelmetMiddleware } = require("./config/security");
 const { errorMiddleware, notFoundMiddleware } = require("./middleware/error.middleware");
 const { apiRoutes } = require("./routes");
@@ -11,10 +11,20 @@ const app = express();
 
 app.disable("x-powered-by");
 
+if (env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
 app.use(buildHelmetMiddleware());
 app.use(
   cors({
-    origin: env.FRONTEND_URL,
+    origin(origin, callback) {
+      if (!origin || corsOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error(`Origin not allowed by CORS: ${origin}`));
+    },
     credentials: true,
   }),
 );

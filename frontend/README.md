@@ -25,6 +25,12 @@ Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_API_URL` to the backend
 cp frontend/.env.example frontend/.env.local
 ```
 
+For Vercel, set:
+
+```txt
+NEXT_PUBLIC_API_URL=https://your-render-backend.onrender.com/api
+```
+
 The frontend includes the landing page, login page, protected dashboard shell, subscription CRUD
 screens, React Query provider, auth hooks, and Zustand UI store. Visit `/login` to start Google
 OAuth once the backend environment is configured.
