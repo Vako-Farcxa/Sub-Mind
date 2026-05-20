@@ -11,7 +11,7 @@ const SUBSCRIPTION_EMAIL_TERMS = [
 
 const DEFAULT_SCAN_DAYS = 90;
 const DEFAULT_MAX_RESULTS = 10;
-const MAX_SCAN_RESULTS = 50;
+const MAX_SCAN_RESULTS = 500;
 
 const normalizeScanOptions = ({ maxResults, newerThanDays } = {}) => ({
   maxResults: Math.min(Math.max(Number(maxResults) || DEFAULT_MAX_RESULTS, 1), MAX_SCAN_RESULTS),

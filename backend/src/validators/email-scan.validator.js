@@ -19,7 +19,7 @@ const getEmailScanSchema = z.object({
 const createEmailScanSchema = z.object({
   body: z
     .object({
-      maxResults: z.coerce.number().int().positive().max(50).optional(),
+      maxResults: z.coerce.number().int().positive().max(500).optional(),
       newerThanDays: z.coerce.number().int().positive().max(365).optional(),
     })
     .default({}),

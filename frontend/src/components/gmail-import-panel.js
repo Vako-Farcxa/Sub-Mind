@@ -63,7 +63,7 @@ export function GmailImportPanel() {
             <input
               type="number"
               min="1"
-              max="50"
+              max="500"
               value={form.maxResults}
               onChange={(event) => updateField("maxResults", event.target.value)}
               className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-cyan-400 dark:border-white/10 dark:bg-slate-950"

@@ -7,7 +7,7 @@ const {
 describe("gmail query helpers", () => {
   it("normalizes scan options into safe Gmail API limits", () => {
     expect(normalizeScanOptions({ maxResults: 500, newerThanDays: 999 })).toEqual({
-      maxResults: 50,
+      maxResults: 500,
       newerThanDays: 365,
     });
     expect(normalizeScanOptions({ maxResults: -1, newerThanDays: 0 })).toEqual({
