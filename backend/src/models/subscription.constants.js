@@ -45,7 +45,7 @@ const KNOWN_PROVIDER_PATTERNS = Object.freeze([
     name: "YouTube Premium",
     category: "Entertainment",
     aliases: ["youtube premium", "youtube", "google youtube"],
-    domains: ["youtube.com", "google.com"],
+    domains: ["youtube.com"],
   },
   {
     name: "ChatGPT Plus",
@@ -93,7 +93,7 @@ const KNOWN_PROVIDER_PATTERNS = Object.freeze([
     name: "Google One",
     category: "Cloud storage",
     aliases: ["google one", "google storage"],
-    domains: ["google.com"],
+    domains: [],
   },
   {
     name: "Microsoft 365",
